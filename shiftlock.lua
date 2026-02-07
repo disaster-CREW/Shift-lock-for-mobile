@@ -87,8 +87,8 @@ ToggleIcon.Position = UDim2.new(0.5, -20, 0.5, -20)
 ToggleIcon.Image = "rbxasset://textures/ui/mouseLock_off@2x.png"
 ToggleIcon.ZIndex = 4
 
--- ICON OFF = DARK BLUE
-ToggleIcon.ImageColor3 = Color3.fromRGB(30, 60, 255)
+-- ICON OFF = RED
+ToggleIcon.ImageColor3 = Color3.fromRGB(255, 60, 60)
 
 -- X BUTTON
 local CloseButton = Instance.new("TextButton")
@@ -220,8 +220,8 @@ connect(ButtonFrame.MouseButton1Click, function()
     shiftLockEnabled = not shiftLockEnabled
     
     if shiftLockEnabled then
-        -- ICON ON = RED
-        ToggleIcon.ImageColor3 = Color3.fromRGB(255, 60, 60)
+        -- ICON ON = GREEN
+        ToggleIcon.ImageColor3 = Color3.fromRGB(60, 255, 60)
 
         if Player.Character and Player.Character:FindFirstChild("Humanoid") then
             Player.Character.Humanoid.AutoRotate = false
@@ -232,8 +232,8 @@ connect(ButtonFrame.MouseButton1Click, function()
         UserInputService.MouseIcon = ""
 
     else
-        -- ICON OFF = DARK BLUE
-        ToggleIcon.ImageColor3 = Color3.fromRGB(30, 60, 255)
+        -- ICON OFF = RED
+        ToggleIcon.ImageColor3 = Color3.fromRGB(255, 60, 60)
 
         if Player.Character and Player.Character:FindFirstChild("Humanoid") then
             Player.Character.Humanoid.AutoRotate = true
