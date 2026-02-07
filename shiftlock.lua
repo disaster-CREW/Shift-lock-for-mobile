@@ -21,23 +21,26 @@ local ButtonFrame = Instance.new("TextButton")
 ButtonFrame.Name = "ShiftlockFrame"
 ButtonFrame.Parent = ScreenGui
 ButtonFrame.Size = UDim2.new(0, 60, 0, 60)
-ButtonFrame.Position = UDim2.new(0.85, -30, 0.5, -30)
+ButtonFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+ButtonFrame.Position = UDim2.new(0.85, 0, 0.5, 0)
 ButtonFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 ButtonFrame.Text = ""
 ButtonFrame.AutoButtonColor = false
+ButtonFrame.ZIndex = 2
 
 local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(1, 0)
 corner.Parent = ButtonFrame
 
--- BLUE OUTLINE (REAL, VISIBLE)
+-- BLUE OUTLINE (NOW ALWAYS VISIBLE)
 local Outline = Instance.new("Frame")
 Outline.Name = "Outline"
 Outline.Parent = ScreenGui
-Outline.Size = UDim2.new(0, 70, 0, 70) -- 10px bigger
-Outline.Position = ButtonFrame.Position - UDim2.new(0, 5, 0, 5)
+Outline.Size = UDim2.new(0, 72, 0, 72) -- 6px outline around 60px button
+Outline.AnchorPoint = Vector2.new(0.5, 0.5)
+Outline.Position = ButtonFrame.Position
 Outline.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
-Outline.ZIndex = ButtonFrame.ZIndex - 1
+Outline.ZIndex = 1
 
 local outlineCorner = Instance.new("UICorner")
 outlineCorner.CornerRadius = UDim.new(1, 0)
@@ -51,6 +54,7 @@ ToggleIcon.BackgroundTransparency = 1
 ToggleIcon.Size = UDim2.new(0, 40, 0, 40)
 ToggleIcon.Position = UDim2.new(0.5, -20, 0.5, -20)
 ToggleIcon.Image = "rbxasset://textures/ui/mouseLock_off@2x.png"
+ToggleIcon.ZIndex = 3
 
 -- X BUTTON
 local CloseButton = Instance.new("TextButton")
@@ -64,6 +68,7 @@ CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 CloseButton.TextSize = 14
 CloseButton.Font = Enum.Font.SourceSansBold
 CloseButton.AutoButtonColor = false
+CloseButton.ZIndex = 4
 
 local closeCorner = Instance.new("UICorner")
 closeCorner.CornerRadius = UDim.new(1, 0)
@@ -85,13 +90,13 @@ task.spawn(function()
             if jumpButton then
                 local pos = UDim2.new(
                     jumpButton.Position.X.Scale,
-                    jumpButton.Position.X.Offset - 70,
+                    jumpButton.Position.X.Offset - 80,
                     jumpButton.Position.Y.Scale,
                     jumpButton.Position.Y.Offset
                 )
 
                 ButtonFrame.Position = pos
-                Outline.Position = pos - UDim2.new(0, 5, 0, 5)
+                Outline.Position = pos
             end
         end
     end
@@ -130,7 +135,7 @@ end
 CloseButton.MouseButton1Click:Connect(shutdown)
 
 ---------------------------------------------------------------------
--- DRAGGING SYSTEM (OUTLINE FOLLOWS)
+-- DRAGGING SYSTEM (OUTLINE FOLLOWS PERFECTLY)
 ---------------------------------------------------------------------
 
 local dragging = false
@@ -167,7 +172,7 @@ connect(UserInputService.InputChanged, function(input)
         )
 
         ButtonFrame.Position = newPos
-        Outline.Position = newPos - UDim2.new(0, 5, 0, 5)
+        Outline.Position = newPos
     end
 end)
 
