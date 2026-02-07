@@ -33,7 +33,7 @@ local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(1, 0)
 corner.Parent = ButtonFrame
 
--- ⭐ CLEAN OUTLINE CONTAINER (INVISIBLE) ⭐
+-- CLEAN OUTLINE CONTAINER
 local Outline = Instance.new("Frame")
 Outline.Name = "Outline"
 Outline.Parent = ScreenGui
@@ -48,9 +48,7 @@ local outlineCorner = Instance.new("UICorner")
 outlineCorner.CornerRadius = UDim.new(1, 0)
 outlineCorner.Parent = Outline
 
--- ⭐ CLEAN, SLIM, NON-CHUNKY NEON GLOW ⭐
-
--- Thin neon stroke
+-- NEON GLOW
 local Glow = Instance.new("UIStroke")
 Glow.Parent = Outline
 Glow.Thickness = 3
@@ -58,7 +56,6 @@ Glow.Color = Color3.fromRGB(0, 255, 255)
 Glow.Transparency = 0.05
 Glow.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
--- Soft outer aura
 local Aura = Instance.new("Frame")
 Aura.Parent = Outline
 Aura.Size = UDim2.new(1, 12, 1, 12)
@@ -89,6 +86,9 @@ ToggleIcon.Size = UDim2.new(0, 40, 0, 40)
 ToggleIcon.Position = UDim2.new(0.5, -20, 0.5, -20)
 ToggleIcon.Image = "rbxasset://textures/ui/mouseLock_off@2x.png"
 ToggleIcon.ZIndex = 4
+
+-- ICON OFF = DARK BLUE
+ToggleIcon.ImageColor3 = Color3.fromRGB(30, 60, 255)
 
 -- X BUTTON
 local CloseButton = Instance.new("TextButton")
@@ -137,7 +137,7 @@ task.spawn(function()
 end)
 
 ---------------------------------------------------------------------
--- CONNECTION STORAGE (for kill switch)
+-- CONNECTION STORAGE
 ---------------------------------------------------------------------
 
 local connections = {}
@@ -210,7 +210,7 @@ connect(UserInputService.InputChanged, function(input)
 end)
 
 ---------------------------------------------------------------------
--- SHIFTLOCK LOGIC (NO CROSSHAIR) + HIDE ROBLOX CURSOR
+-- SHIFTLOCK LOGIC + ICON COLOR LOGIC
 ---------------------------------------------------------------------
 
 local shiftLockEnabled = false
@@ -220,18 +220,20 @@ connect(ButtonFrame.MouseButton1Click, function()
     shiftLockEnabled = not shiftLockEnabled
     
     if shiftLockEnabled then
-        ToggleIcon.Image = "rbxasset://textures/ui/mouseLock_on@2x.png"
+        -- ICON ON = RED
+        ToggleIcon.ImageColor3 = Color3.fromRGB(255, 60, 60)
 
         if Player.Character and Player.Character:FindFirstChild("Humanoid") then
             Player.Character.Humanoid.AutoRotate = false
         end
 
-        -- ⭐ Hide Roblox's built-in shiftlock cursor
+        -- Hide Roblox cursor
         UserInputService.MouseIconEnabled = false
         UserInputService.MouseIcon = ""
 
     else
-        ToggleIcon.Image = "rbxasset://textures/ui/mouseLock_off@2x.png"
+        -- ICON OFF = DARK BLUE
+        ToggleIcon.ImageColor3 = Color3.fromRGB(30, 60, 255)
 
         if Player.Character and Player.Character:FindFirstChild("Humanoid") then
             Player.Character.Humanoid.AutoRotate = true
