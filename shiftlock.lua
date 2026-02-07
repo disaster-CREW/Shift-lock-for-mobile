@@ -1,5 +1,5 @@
 --[[
-    Mobile Shiftlock Script (Draggable + Kill Switch + Jump Button Positioning + Blue Outline)
+    Mobile Shiftlock Script (Draggable + Kill Switch + Jump Button Positioning + Visible Blue Outline)
     Made by Disaster & Copilot
 ]]
 
@@ -16,24 +16,32 @@ ScreenGui.ResetOnSpawn = false
 ScreenGui.IgnoreGuiInset = true
 ScreenGui.Parent = Player:WaitForChild("PlayerGui")
 
--- MAIN CIRCLE BUTTON
+-- MAIN BUTTON
 local ButtonFrame = Instance.new("TextButton")
 ButtonFrame.Name = "ShiftlockFrame"
 ButtonFrame.Parent = ScreenGui
 ButtonFrame.Size = UDim2.new(0, 60, 0, 60)
 ButtonFrame.Position = UDim2.new(0.85, -30, 0.5, -30)
-
--- NEW STYLE: Black background + thick blue outline
 ButtonFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-ButtonFrame.BorderSizePixel = 6
-ButtonFrame.BorderColor3 = Color3.fromRGB(0, 170, 255)
-
 ButtonFrame.Text = ""
 ButtonFrame.AutoButtonColor = false
 
 local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(1, 0)
 corner.Parent = ButtonFrame
+
+-- BLUE OUTLINE (REAL, VISIBLE)
+local Outline = Instance.new("Frame")
+Outline.Name = "Outline"
+Outline.Parent = ScreenGui
+Outline.Size = UDim2.new(0, 70, 0, 70) -- 10px bigger
+Outline.Position = ButtonFrame.Position - UDim2.new(0, 5, 0, 5)
+Outline.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+Outline.ZIndex = ButtonFrame.ZIndex - 1
+
+local outlineCorner = Instance.new("UICorner")
+outlineCorner.CornerRadius = UDim.new(1, 0)
+outlineCorner.Parent = Outline
 
 -- SHIFTLOCK ICON
 local ToggleIcon = Instance.new("ImageLabel")
@@ -62,7 +70,7 @@ closeCorner.CornerRadius = UDim.new(1, 0)
 closeCorner.Parent = CloseButton
 
 ---------------------------------------------------------------------
--- POSITION NEXT TO MOBILE JUMP BUTTON (still draggable)
+-- POSITION NEXT TO MOBILE JUMP BUTTON
 ---------------------------------------------------------------------
 
 task.spawn(function()
@@ -75,12 +83,15 @@ task.spawn(function()
             local jumpButton = touchControlFrame:FindFirstChild("JumpButton")
 
             if jumpButton then
-                ButtonFrame.Position = UDim2.new(
+                local pos = UDim2.new(
                     jumpButton.Position.X.Scale,
                     jumpButton.Position.X.Offset - 70,
                     jumpButton.Position.Y.Scale,
                     jumpButton.Position.Y.Offset
                 )
+
+                ButtonFrame.Position = pos
+                Outline.Position = pos - UDim2.new(0, 5, 0, 5)
             end
         end
     end
@@ -119,7 +130,7 @@ end
 CloseButton.MouseButton1Click:Connect(shutdown)
 
 ---------------------------------------------------------------------
--- DRAGGING SYSTEM
+-- DRAGGING SYSTEM (OUTLINE FOLLOWS)
 ---------------------------------------------------------------------
 
 local dragging = false
@@ -147,12 +158,16 @@ connect(UserInputService.InputChanged, function(input)
     or input.UserInputType == Enum.UserInputType.MouseMovement) then
         
         local delta = input.Position - dragStart
-        ButtonFrame.Position = UDim2.new(
+
+        local newPos = UDim2.new(
             startPos.X.Scale,
             startPos.X.Offset + delta.X,
             startPos.Y.Scale,
             startPos.Y.Offset + delta.Y
         )
+
+        ButtonFrame.Position = newPos
+        Outline.Position = newPos - UDim2.new(0, 5, 0, 5)
     end
 end)
 
