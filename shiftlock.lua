@@ -33,20 +33,52 @@ local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(1, 0)
 corner.Parent = ButtonFrame
 
--- OUTLINE (BLACK)
+-- ⭐ CLEAN OUTLINE CONTAINER (INVISIBLE) ⭐
 local Outline = Instance.new("Frame")
 Outline.Name = "Outline"
 Outline.Parent = ScreenGui
-Outline.Size = UDim2.new(0, 64, 0, 64)
+Outline.Size = UDim2.new(0, 70, 0, 70) -- slightly bigger than button
 Outline.AnchorPoint = Vector2.new(0.5, 0.5)
 Outline.Position = ButtonFrame.Position
-Outline.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Outline.BackgroundTransparency = 1 -- invisible
 Outline.BorderSizePixel = 0
-Outline.ZIndex = 2
+Outline.ZIndex = 1
 
 local outlineCorner = Instance.new("UICorner")
 outlineCorner.CornerRadius = UDim.new(1, 0)
 outlineCorner.Parent = Outline
+
+-- ⭐ CLEAN, SLIM, NON-CHUNKY NEON GLOW ⭐
+
+-- Thin neon stroke
+local Glow = Instance.new("UIStroke")
+Glow.Parent = Outline
+Glow.Thickness = 3 -- slimmer
+Glow.Color = Color3.fromRGB(0, 255, 255)
+Glow.Transparency = 0.05
+Glow.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+-- Soft outer aura
+local Aura = Instance.new("Frame")
+Aura.Parent = Outline
+Aura.Size = UDim2.new(1, 12, 1, 12) -- smaller aura
+Aura.Position = UDim2.new(0.5, 0, 0.5, 0)
+Aura.AnchorPoint = Vector2.new(0.5, 0.5)
+Aura.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+Aura.BorderSizePixel = 0
+Aura.BackgroundTransparency = 0.9 -- softer
+Aura.ZIndex = 0
+
+local auraCorner = Instance.new("UICorner")
+auraCorner.CornerRadius = UDim.new(1, 0)
+auraCorner.Parent = Aura
+
+local auraStroke = Instance.new("UIStroke")
+auraStroke.Parent = Aura
+auraStroke.Thickness = 6 -- slimmer glow
+auraStroke.Color = Color3.fromRGB(0, 255, 255)
+auraStroke.Transparency = 0.75
+auraStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 -- SHIFTLOCK ICON
 local ToggleIcon = Instance.new("ImageLabel")
@@ -137,7 +169,7 @@ end
 CloseButton.MouseButton1Click:Connect(shutdown)
 
 ---------------------------------------------------------------------
--- DRAGGING SYSTEM (FIXED — NO MORE CRAZY MOVEMENT)
+-- DRAGGING SYSTEM
 ---------------------------------------------------------------------
 
 local dragging = false
