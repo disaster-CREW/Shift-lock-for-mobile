@@ -37,10 +37,10 @@ corner.Parent = ButtonFrame
 local Outline = Instance.new("Frame")
 Outline.Name = "Outline"
 Outline.Parent = ScreenGui
-Outline.Size = UDim2.new(0, 70, 0, 70) -- slightly bigger than button
+Outline.Size = UDim2.new(0, 70, 0, 70)
 Outline.AnchorPoint = Vector2.new(0.5, 0.5)
 Outline.Position = ButtonFrame.Position
-Outline.BackgroundTransparency = 1 -- invisible
+Outline.BackgroundTransparency = 1
 Outline.BorderSizePixel = 0
 Outline.ZIndex = 1
 
@@ -53,7 +53,7 @@ outlineCorner.Parent = Outline
 -- Thin neon stroke
 local Glow = Instance.new("UIStroke")
 Glow.Parent = Outline
-Glow.Thickness = 3 -- slimmer
+Glow.Thickness = 3
 Glow.Color = Color3.fromRGB(0, 255, 255)
 Glow.Transparency = 0.05
 Glow.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -61,12 +61,12 @@ Glow.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 -- Soft outer aura
 local Aura = Instance.new("Frame")
 Aura.Parent = Outline
-Aura.Size = UDim2.new(1, 12, 1, 12) -- smaller aura
+Aura.Size = UDim2.new(1, 12, 1, 12)
 Aura.Position = UDim2.new(0.5, 0, 0.5, 0)
 Aura.AnchorPoint = Vector2.new(0.5, 0.5)
 Aura.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
 Aura.BorderSizePixel = 0
-Aura.BackgroundTransparency = 0.9 -- softer
+Aura.BackgroundTransparency = 0.9
 Aura.ZIndex = 0
 
 local auraCorner = Instance.new("UICorner")
@@ -75,7 +75,7 @@ auraCorner.Parent = Aura
 
 local auraStroke = Instance.new("UIStroke")
 auraStroke.Parent = Aura
-auraStroke.Thickness = 6 -- slimmer glow
+auraStroke.Thickness = 6
 auraStroke.Color = Color3.fromRGB(0, 255, 255)
 auraStroke.Transparency = 0.75
 auraStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -210,21 +210,6 @@ connect(UserInputService.InputChanged, function(input)
 end)
 
 ---------------------------------------------------------------------
--- CROSSHAIR
----------------------------------------------------------------------
-
-local Crosshair = Instance.new("ImageLabel")
-Crosshair.Name = "ShiftlockCursor"
-Crosshair.Parent = ScreenGui
-Crosshair.BackgroundTransparency = 1
-Crosshair.Position = UDim2.new(0.5, 0, 0.5, 0)
-Crosshair.AnchorPoint = Vector2.new(0.5, 0.5)
-Crosshair.Size = UDim2.new(0, 32, 0, 32)
-Crosshair.Image = "rbxasset://textures/MouseLockedCursor.png"
-Crosshair.Visible = false
-Crosshair.ZIndex = 10
-
----------------------------------------------------------------------
 -- SHIFTLOCK LOGIC
 ---------------------------------------------------------------------
 
@@ -236,13 +221,11 @@ connect(ButtonFrame.MouseButton1Click, function()
     
     if shiftLockEnabled then
         ToggleIcon.Image = "rbxasset://textures/ui/mouseLock_on@2x.png"
-        Crosshair.Visible = true
         if Player.Character and Player.Character:FindFirstChild("Humanoid") then
             Player.Character.Humanoid.AutoRotate = false
         end
     else
         ToggleIcon.Image = "rbxasset://textures/ui/mouseLock_off@2x.png"
-        Crosshair.Visible = false
         if Player.Character and Player.Character:FindFirstChild("Humanoid") then
             Player.Character.Humanoid.AutoRotate = true
             Player.Character.Humanoid.CameraOffset = Vector3.new(0, 0, 0)
