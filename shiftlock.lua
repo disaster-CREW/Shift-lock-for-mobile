@@ -1,5 +1,5 @@
 --[[
-    Mobile Shiftlock Script (Draggable + Kill Switch)
+    Mobile Shiftlock Script (Draggable + Kill Switch + Jump Button Positioning)
     Made by Disaster & Copilot
 ]]
 
@@ -30,7 +30,7 @@ local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(1, 0)
 corner.Parent = ButtonFrame
 
--- SHIFTLOCK ICON (visual only)
+-- SHIFTLOCK ICON
 local ToggleIcon = Instance.new("ImageLabel")
 ToggleIcon.Name = "ShiftlockIcon"
 ToggleIcon.Parent = ButtonFrame
@@ -57,6 +57,32 @@ closeCorner.CornerRadius = UDim.new(1, 0)
 closeCorner.Parent = CloseButton
 
 ---------------------------------------------------------------------
+-- POSITION NEXT TO MOBILE JUMP BUTTON (still draggable)
+---------------------------------------------------------------------
+
+task.spawn(function()
+    local playerGui = Player:WaitForChild("PlayerGui")
+    local touchGui = playerGui:WaitForChild("TouchGui", 5)
+
+    if touchGui then
+        local touchControlFrame = touchGui:WaitForChild("TouchControlFrame", 5)
+        if touchControlFrame then
+            local jumpButton = touchControlFrame:FindFirstChild("JumpButton")
+
+            if jumpButton then
+                -- Place shiftlock button to the LEFT of jump button
+                ButtonFrame.Position = UDim2.new(
+                    jumpButton.Position.X.Scale,
+                    jumpButton.Position.X.Offset - 70,
+                    jumpButton.Position.Y.Scale,
+                    jumpButton.Position.Y.Offset
+                )
+            end
+        end
+    end
+end)
+
+---------------------------------------------------------------------
 -- CONNECTION STORAGE (for kill switch)
 ---------------------------------------------------------------------
 
@@ -69,21 +95,17 @@ local function connect(event, func)
 end
 
 local function shutdown()
-    -- disable shiftlock
     if Player.Character and Player.Character:FindFirstChild("Humanoid") then
         Player.Character.Humanoid.AutoRotate = true
         Player.Character.Humanoid.CameraOffset = Vector3.new(0, 0, 0)
     end
 
-    -- hide UI
     ScreenGui.Enabled = false
 
-    -- disconnect all events
     for _, c in ipairs(connections) do
         c:Disconnect()
     end
 
-    -- prevent reactivation
     ButtonFrame.Active = false
     CloseButton.Active = false
 
