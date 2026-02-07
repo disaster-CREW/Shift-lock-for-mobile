@@ -1,5 +1,5 @@
 --[[
-    Mobile Shiftlock Script (Draggable + Kill Switch + Jump Button Positioning + Visible Blue Outline)
+    Mobile Shiftlock Script (Draggable + Kill Switch + Jump Button Positioning + Thin Blue Outline)
     Made by Disaster & Copilot
 ]]
 
@@ -14,6 +14,7 @@ local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "MobileShiftlockGUI"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.IgnoreGuiInset = true
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
 ScreenGui.Parent = Player:WaitForChild("PlayerGui")
 
 -- MAIN BUTTON
@@ -26,21 +27,22 @@ ButtonFrame.Position = UDim2.new(0.85, 0, 0.5, 0)
 ButtonFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 ButtonFrame.Text = ""
 ButtonFrame.AutoButtonColor = false
-ButtonFrame.ZIndex = 2
+ButtonFrame.ZIndex = 3
 
 local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(1, 0)
 corner.Parent = ButtonFrame
 
--- BLUE OUTLINE (NOW ALWAYS VISIBLE)
+-- BLUE OUTLINE (THINNER)
 local Outline = Instance.new("Frame")
 Outline.Name = "Outline"
 Outline.Parent = ScreenGui
-Outline.Size = UDim2.new(0, 72, 0, 72) -- 6px outline around 60px button
+Outline.Size = UDim2.new(0, 66, 0, 66) -- 3px outline around 60px button
 Outline.AnchorPoint = Vector2.new(0.5, 0.5)
 Outline.Position = ButtonFrame.Position
 Outline.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
-Outline.ZIndex = 1
+Outline.BorderSizePixel = 0
+Outline.ZIndex = 2
 
 local outlineCorner = Instance.new("UICorner")
 outlineCorner.CornerRadius = UDim.new(1, 0)
@@ -54,7 +56,7 @@ ToggleIcon.BackgroundTransparency = 1
 ToggleIcon.Size = UDim2.new(0, 40, 0, 40)
 ToggleIcon.Position = UDim2.new(0.5, -20, 0.5, -20)
 ToggleIcon.Image = "rbxasset://textures/ui/mouseLock_off@2x.png"
-ToggleIcon.ZIndex = 3
+ToggleIcon.ZIndex = 4
 
 -- X BUTTON
 local CloseButton = Instance.new("TextButton")
@@ -68,7 +70,7 @@ CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 CloseButton.TextSize = 14
 CloseButton.Font = Enum.Font.SourceSansBold
 CloseButton.AutoButtonColor = false
-CloseButton.ZIndex = 4
+CloseButton.ZIndex = 5
 
 local closeCorner = Instance.new("UICorner")
 closeCorner.CornerRadius = UDim.new(1, 0)
@@ -189,6 +191,7 @@ Crosshair.AnchorPoint = Vector2.new(0.5, 0.5)
 Crosshair.Size = UDim2.new(0, 32, 0, 32)
 Crosshair.Image = "rbxasset://textures/MouseLockedCursor.png"
 Crosshair.Visible = false
+Crosshair.ZIndex = 10
 
 ---------------------------------------------------------------------
 -- SHIFTLOCK LOGIC
