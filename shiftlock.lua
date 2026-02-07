@@ -1,5 +1,5 @@
 --[[
-    Mobile Shiftlock Script (Draggable + Kill Switch + Jump Button Positioning + Inverted Colors)
+    Mobile Shiftlock Script (Draggable + Kill Switch + Jump Button Positioning + Inverted Colors + Drag Fix)
     Made by Disaster & Copilot
 ]]
 
@@ -17,14 +17,14 @@ ScreenGui.IgnoreGuiInset = true
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
 ScreenGui.Parent = Player:WaitForChild("PlayerGui")
 
--- MAIN BUTTON (INVERTED: BLUE)
+-- MAIN BUTTON (BLUE)
 local ButtonFrame = Instance.new("TextButton")
 ButtonFrame.Name = "ShiftlockFrame"
 ButtonFrame.Parent = ScreenGui
 ButtonFrame.Size = UDim2.new(0, 60, 0, 60)
 ButtonFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 ButtonFrame.Position = UDim2.new(0.85, 0, 0.5, 0)
-ButtonFrame.BackgroundColor3 = Color3.fromRGB(0, 170, 255) -- BLUE BUTTON
+ButtonFrame.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
 ButtonFrame.Text = ""
 ButtonFrame.AutoButtonColor = false
 ButtonFrame.ZIndex = 3
@@ -33,14 +33,14 @@ local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(1, 0)
 corner.Parent = ButtonFrame
 
--- OUTLINE (INVERTED: BLACK)
+-- OUTLINE (BLACK)
 local Outline = Instance.new("Frame")
 Outline.Name = "Outline"
 Outline.Parent = ScreenGui
-Outline.Size = UDim2.new(0, 64, 0, 64) -- thin outline
+Outline.Size = UDim2.new(0, 64, 0, 64)
 Outline.AnchorPoint = Vector2.new(0.5, 0.5)
 Outline.Position = ButtonFrame.Position
-Outline.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- BLACK OUTLINE
+Outline.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 Outline.BorderSizePixel = 0
 Outline.ZIndex = 2
 
@@ -137,33 +137,32 @@ end
 CloseButton.MouseButton1Click:Connect(shutdown)
 
 ---------------------------------------------------------------------
--- DRAGGING SYSTEM (OUTLINE FOLLOWS)
+-- DRAGGING SYSTEM (FIXED — NO MORE CRAZY MOVEMENT)
 ---------------------------------------------------------------------
 
 local dragging = false
 local dragStart
 local startPos
+local draggingTouch = nil
 
 connect(ButtonFrame.InputBegan, function(input)
-    if input.UserInputType == Enum.UserInputType.Touch 
-    or input.UserInputType == Enum.UserInputType.MouseButton1 then
-        
+    if input.UserInputType == Enum.UserInputType.Touch then
         dragging = true
+        draggingTouch = input
         dragStart = input.Position
         startPos = ButtonFrame.Position
+    end
+end)
 
-        connect(input.Changed, function()
-            if input.UserInputState == Enum.UserInputState.End then
-                dragging = false
-            end
-        end)
+connect(ButtonFrame.InputEnded, function(input)
+    if input == draggingTouch then
+        dragging = false
+        draggingTouch = nil
     end
 end)
 
 connect(UserInputService.InputChanged, function(input)
-    if dragging and (input.UserInputType == Enum.UserInputType.Touch 
-    or input.UserInputType == Enum.UserInputType.MouseMovement) then
-        
+    if dragging and input == draggingTouch then
         local delta = input.Position - dragStart
 
         local newPos = UDim2.new(
