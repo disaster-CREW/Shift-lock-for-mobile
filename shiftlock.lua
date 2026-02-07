@@ -1,5 +1,5 @@
 --[[
-    Mobile Shiftlock Script (Draggable + Kill Switch + Jump Button Positioning)
+    Mobile Shiftlock Script (Draggable + Kill Switch + Jump Button Positioning + Blue Outline)
     Made by Disaster & Copilot
 ]]
 
@@ -22,7 +22,12 @@ ButtonFrame.Name = "ShiftlockFrame"
 ButtonFrame.Parent = ScreenGui
 ButtonFrame.Size = UDim2.new(0, 60, 0, 60)
 ButtonFrame.Position = UDim2.new(0.85, -30, 0.5, -30)
-ButtonFrame.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+
+-- NEW STYLE: Black background + thick blue outline
+ButtonFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ButtonFrame.BorderSizePixel = 6
+ButtonFrame.BorderColor3 = Color3.fromRGB(0, 170, 255)
+
 ButtonFrame.Text = ""
 ButtonFrame.AutoButtonColor = false
 
@@ -70,7 +75,6 @@ task.spawn(function()
             local jumpButton = touchControlFrame:FindFirstChild("JumpButton")
 
             if jumpButton then
-                -- Place shiftlock button to the LEFT of jump button
                 ButtonFrame.Position = UDim2.new(
                     jumpButton.Position.X.Scale,
                     jumpButton.Position.X.Offset - 70,
